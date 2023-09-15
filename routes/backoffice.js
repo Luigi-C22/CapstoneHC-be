@@ -8,6 +8,24 @@ const crypto = require ('crypto');
 
 const backoffice = express.Router()
 
+//get all
+backoffice.get('/backoffice', async (req, res) => {
+    try {
+        const posts = await Backoffice.find()
+        res.status(200).send({
+            statusCode: 200,
+            posts: posts
+        })
+    } catch (error) {
+        res.status(500).send({
+            stusCode: 500,
+            message: 'Internal server error',
+            error,
+        });
+    }
+});
+
+//new post del backoffice
 backoffice.post('/backoffice', 
     async (req, res) => {
 

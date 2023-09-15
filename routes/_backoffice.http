@@ -2,10 +2,15 @@ POST http://localhost:5050/backoffice HTTP/1.1
 Content-Type: application/json
 
 {
-   "carBrand": "Lamborghini",
-   "carName": "Aventador",
+   "carBrand": "Aston Martin",
+   "carName": "DBX",
    "carPicture": "http://immagine_a_caso.jpg",
-   "price": 130000,
+   "price": 240000,
    "contact": "in store",
-   "description": "no half measures"
+   "description": "The luxury SUV"
 }
+
+#####
+
+GET http://localhost:5050/backoffice/
+
