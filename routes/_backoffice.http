@@ -1,0 +1,11 @@
+POST http://localhost:5050/backoffice HTTP/1.1
+Content-Type: application/json
+
+{
+   "carBrand": "Lamborghini",
+   "carName": "Aventador",
+   "carPicture": "http://immagine_a_caso.jpg",
+   "price": 130000,
+   "contact": "in store",
+   "description": "no half measures"
+}

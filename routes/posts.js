@@ -13,7 +13,7 @@ const post = express.Router()
 // configurazione di multer per il salvataggio locale dei file immagine
 const internalStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cd(null, 'uploads' )
+        cb(null, '/uploads' )
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = `${new Date().toISOString()}-${crypto.randomUUID()}`;
