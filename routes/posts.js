@@ -3,17 +3,32 @@ const mongoose = require('mongoose');
 const PostsModel = require('../models/postModel');
 const postModel = require('../models/postModel');
 const { postBodyParams, validatePostBody } = require('../middlewares/postValidation');
-const multer = require ('multer');
+const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
-const {cloudinaryStorage} = require ('multer-storage-cloudinary');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const crypto = require('crypto');
 
-const post = express.Router()
+const post = express.Router();
+
+cloudinary.config({
+    cloud_name: 'dtwf16umd',
+    api_key: '191411338711878',
+    api_secret: 'jE6_s_KqtrAYzUKw4wI79NafTkM',
+});
+
+const cloudStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'hyperCar',
+        format: async (req, file) => 'png',
+        public_id: (req, file) => file.name,
+    },
+});
 
 // configurazione di multer per il salvataggio locale dei file immagine
 const internalStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '/uploads' )
+        cb(null, '/uploads')
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = `${new Date().toISOString()}-${crypto.randomUUID()}`;
@@ -22,20 +37,30 @@ const internalStorage = multer.diskStorage({
     },
 });
 
-const uploads = multer ({ storage: internalStorage});
+const uploads = multer({ storage: internalStorage });
 // (riga sopra) fine configurazione di multer
+const cloudUpload = multer({ storage: cloudStorage });
+post.post(
+    '/posts/cloudUpload',
+    cloudUpload.single('carPicture'),
+    async (req, res) => {
+        try {
+            res.status(200).json({ carPicture: req.file.path });
+        } catch (error) {
+            console.error('File upload failed', error);
+        }
+    });
 
-
-post.post('/posts/internalUpload', uploads.single('carPicture'), async(req, res) => {
+post.post('/posts/internalUpload', uploads.single('carPicture'), async (req, res) => {
     try {
-        res.status(200).json({ carPicture: req.file.path})
+        res.status(200).json({ carPicture: req.file.path })
     } catch (error) {
         console.error('File upload failed');
         res.status(500).send({
             statusCode: 500,
             message: 'upload not completed correctly',
         });
-        
+
     }
 });
 
@@ -47,9 +72,9 @@ post.get('/posts', async (req, res) => {
 
     try {
         const posts = await PostsModel.find()
-        .limit(pageSize)
-        .skip((page - 1) * pageSize)
-        .populate('authorName', 'userName email');
+            .limit(pageSize)
+            .skip((page - 1) * pageSize)
+            .populate('authorName', 'userName email');
 
         const totalPosts = await PostsModel.count()
 
@@ -73,7 +98,7 @@ post.get('/posts', async (req, res) => {
 //get by id
 post.get('/posts/:postId', async (req, res) => {
 
-const { postId }  = req.params;
+    const { postId } = req.params;
 
     try {
         const postById = await PostsModel.findById(postId)
@@ -87,63 +112,63 @@ const { postId }  = req.params;
             statusCode: 500,
             message: 'Internal server error',
             error,
-        }); 
+        });
     }
 })
 
 
 //post 
 post.post('/posts', postBodyParams, validatePostBody,
- async (req, res) => {
+    async (req, res) => {
 
-    const newPost = new PostsModel({
-        carBrand: req.body.carBrand,
-        carName: req.body.carName,
-        carPicture: req.body.carPicture,
-        year: req.body.year,
-        price: Number(req.body.price),
-        contact: req.body.contact,
-        description: req.body.description,
-        authorName: req.body.authorName
-    })
-
-    try {
-        const post = await newPost.save();
-
-        res.status(201).send({
-            statusCode: 201,
-            message: 'Post saved successfully',
-            payload: post,
+        const newPost = new PostsModel({
+            carBrand: req.body.carBrand,
+            carName: req.body.carName,
+            carPicture: req.body.carPicture,
+            year: req.body.year,
+            price: Number(req.body.price),
+            contact: req.body.contact,
+            description: req.body.description,
+            authorName: req.body.authorName
         })
-    } catch (error) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error,
-        });
+
+        try {
+            const post = await newPost.save();
+
+            res.status(201).send({
+                statusCode: 201,
+                message: 'Post saved successfully',
+                payload: post,
+            })
+        } catch (error) {
+            res.status(500).send({
+                statusCode: 500,
+                message: 'Internal server error',
+                error,
+            });
+        }
+    });
+
+
+post.patch('/posts/:id', async (req, res) => {
+    const { id } = req.params
+
+    const postExist = await PostsModel.findById(id)
+
+    if (!postExist) {
+        return res.status(404).send({
+            statusCode: 404,
+            message: `Post with id ${id} not found!`,
+        })
     }
-});
-
-
-post.patch('/posts/:id', async (req, res) =>{
-const { id } = req.params
-
-const postExist = await PostsModel.findById(id)
-
-if (!postExist) {
-    return res.status(404).send({
-        statusCode: 404,
-        message: `Post with id ${id} not found!`,
-    })
-}
     try {
         const postId = id;
         const dataToUpdate = req.body;
-        const options = { new: true};
+        const options = { new: true };
 
-        const result =  await PostsModel.findByIdAndUpdate(postId, dataToUpdate, options)
+        const result = await PostsModel.findByIdAndUpdate(postId, dataToUpdate, options)
 
-        res.status(200).send ({
+        res.status(200).send({
             statusCode: 200,
             message: `Post with id ${id} modified successfully!!`,
             result,
@@ -159,11 +184,11 @@ if (!postExist) {
 
 post.delete('/posts/:id', async (req, res) => {
 
-    const { id }  = req.params
+    const { id } = req.params
 
     const postExist = await PostsModel.findById(id)
 
-    if(!postExist) {
+    if (!postExist) {
         return res.status(404).send({
             statusCode: 404,
             message: `Post with id ${id} not found`,

@@ -6,13 +6,13 @@ POST http://localhost:5050/posts HTTP/1.1
 Content-Type: application/json
 
 {
-   "carBrand": "Ferrari",
-   "carName": "288 GTO",
+   "carBrand": "Porsche",
+   "carName": "911 GT3",
    "carPicture": "http://immagine.jpg",
-   "year": "1984",
-   "price": 3250000,
+   "year": "1974",
+   "price": 850000,
    "contact": "vinz@aol.com",
-   "description": "A road legend on four wheels",
+   "description": "better than a horse-drawn carriage",
    "authorName": "64ff401fa9fe3f9088f50893"
 }
 #####
