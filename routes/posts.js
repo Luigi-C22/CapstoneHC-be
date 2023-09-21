@@ -7,13 +7,14 @@ const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const crypto = require('crypto');
+const verifyToken = require('../middlewares/verifyToken');
 
 const post = express.Router();
 
 cloudinary.config({
-    cloud_name: 'dtwf16umd',
-    api_key: '191411338711878',
-    api_secret: 'jE6_s_KqtrAYzUKw4wI79NafTkM',
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const cloudStorage = new CloudinaryStorage({
@@ -40,8 +41,9 @@ const internalStorage = multer.diskStorage({
 const uploads = multer({ storage: internalStorage });
 // (riga sopra) fine configurazione di multer
 const cloudUpload = multer({ storage: cloudStorage });
+
 post.post(
-    '/posts/cloudUpload',
+    '/posts/cloudUpload', verifyToken,
     cloudUpload.single('carPicture'),
     async (req, res) => {
         try {

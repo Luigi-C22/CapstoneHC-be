@@ -56,7 +56,9 @@ user.post('/users', async (req, res) => {
         userName: req.body.userName,
         surname: req.body.surname,
         email: req.body.email,
-        password: hashedPassword
+        password: hashedPassword,
+        dob: req.body.dob,
+        avatar: req.body.avatar
     })
 
     try {
