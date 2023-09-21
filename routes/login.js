@@ -36,6 +36,7 @@ login.post('/login', async (req, res) =>{
 
     res.header('Authorization', token).status(200).send({
         statusCode: 200,
+        message: 'Logged In successfully',
         token,
     });
 });
