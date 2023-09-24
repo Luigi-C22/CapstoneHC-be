@@ -6,13 +6,14 @@ const path =  require('path');
 
 require('dotenv').config();
 
+
 //require delle routes
 const postsRoute = require('./routes/posts');
 const usersRoute = require('./routes/users');
 const loginRoute = require('./routes/login');
 const backofficeRoute = require('./routes/backoffice');
+const githubRoute = require('./routes/githubRoute');
 const app = express();
-
 //middleware
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors());
@@ -26,6 +27,7 @@ app.use('/', postsRoute);
 app.use('/', usersRoute);
 app.use('/', loginRoute);
 app.use('/', backofficeRoute);
+app.use('/', githubRoute);
 
 mongoose.connect(process.env.MONGO_DB_URL);
 

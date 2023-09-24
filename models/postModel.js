@@ -7,31 +7,31 @@ const PostModelSchema = new mongoose.Schema(
     {
         carBrand: {
             type: String,
-            required: false,
+            required: [false, 'Car brand is required'],
         },
         carName: {
             type: String,
-            required: false,
+            required: [false, 'Car name is required'],
         },
         carPicture: {
             type: String,
-            required: false,
+            required: [false, 'A car picture is required'],
              },
         year: {
             type: String,
-            required: false,
+            required: [false, 'The year of registration is required'],
         },
         price: {
             type: Number,
-            required: false,
+            required: [false, 'Price is required'],
         },
         contact: {
             type: String,
-            required: false,
+            required: [false, 'Contact is required'],
         },
         description: {
             type: String,
-            required: false,
+            required: [false, 'A 20 character description is required'],
         },
         authorName: {
             type: mongoose.Schema.Types.ObjectId,

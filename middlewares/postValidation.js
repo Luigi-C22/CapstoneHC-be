@@ -40,8 +40,8 @@ const postBodyParams = [
     body('description')
     .notEmpty()
     .isString()
-    .isLength({min: 20})
-    .withMessage('Description must have at least 20 characters'),
+    .isLength({min: 10})
+    .withMessage('Description must have at least 10 characters'),
 
     body('authorName')
     .notEmpty()

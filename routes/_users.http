@@ -6,10 +6,10 @@ POST http://localhost:5050/users HTTP/1.1
 Content-Type: application/json
 
 {
-   "userName": "Takeshi",
-   "surname": "Brambilla",
-   "email": "take@gmail.com",
-   "password": "nippon",
+   "userName": "Johnny",
+   "surname": "Quaglia",
+   "email": "jon@gmail.com",
+   "password": "quaglia",
    "dob": "04/0/1995"
    
 }

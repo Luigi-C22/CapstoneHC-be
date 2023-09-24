@@ -9,6 +9,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const crypto = require('crypto');
 const verifyToken = require('../middlewares/verifyToken');
 
+require('dotenv').config();
 const post = express.Router();
 
 cloudinary.config({
@@ -21,7 +22,7 @@ const cloudStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'hyperCar',
-        format: async (req, file) => 'png',
+        format: async (req, file) => ['png', 'jpg'].join('|'),
         public_id: (req, file) => file.name,
     },
 });
