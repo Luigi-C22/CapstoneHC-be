@@ -14,6 +14,7 @@ const loginRoute = require('./routes/login');
 const backofficeRoute = require('./routes/backoffice');
 const githubRoute = require('./routes/githubRoute');
 const app = express();
+
 //middleware
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors());
