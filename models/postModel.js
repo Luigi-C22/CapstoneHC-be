@@ -31,7 +31,7 @@ const PostModelSchema = new mongoose.Schema(
         },
         description: {
             type: String,
-            required: [false, 'A 20 character description is required'],
+            required: [false, 'A 10 character description is required'],
         },
         authorName: {
             type: mongoose.Schema.Types.ObjectId,

@@ -56,7 +56,7 @@ post.post(
 
 post.post('/posts/internalUpload', uploads.single('carPicture'), async (req, res) => {
     try {
-        res.status(200).json({ carPicture: req.file.path })
+        res.status(200).json({ carPicture: req.file.path });
     } catch (error) {
         console.error('File upload failed');
         res.status(500).send({
@@ -71,7 +71,7 @@ post.post('/posts/internalUpload', uploads.single('carPicture'), async (req, res
 post.get('/posts', async (req, res) => {
 
     //pagination
-    const { page = 1, pageSize = 8 } = req.query
+    const { page = 1, pageSize = 4 } = req.query
 
     try {
         const posts = await PostsModel.find()
@@ -85,6 +85,7 @@ post.get('/posts', async (req, res) => {
             statusCode: 200,
             totalPosts: totalPosts,
             currentPage: page,
+            totalPages: Math.ceil(totalPosts/pageSize),
             pageSize: pageSize,
             posts: posts
         });

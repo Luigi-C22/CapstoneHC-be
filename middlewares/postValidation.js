@@ -13,11 +13,11 @@ const postBodyParams = [
     .isLength({min: 1})
     .withMessage('Car name must have at least 1 character'),
 
-    body('carPicture')
+    /* body('carPicture')
     .notEmpty()
     .isString()
     .isURL()
-    .withMessage('The picture must be an image file'),
+    .withMessage('The picture must be an image file'), */
 
     body('year')
     .notEmpty()
@@ -34,8 +34,8 @@ const postBodyParams = [
     body('contact')
     .notEmpty()
     .isString()
-    .isLength({min: 10})
-    .withMessage('Contact must be a phone number at least 10 characters'),
+    .isLength({min: 8})
+    .withMessage('Contact must be a phone number at least 8 characters'),
 
     body('description')
     .notEmpty()

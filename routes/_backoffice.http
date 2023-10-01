@@ -3,11 +3,11 @@ Content-Type: application/json
 
 {
    "carBrand": "Aston Martin",
-   "carName": "DBX",
-   "carPicture": "http://immagine_a_caso.jpg",
+   "carName": "ONE 77",
+   "carPicture": "https://res.cloudinary.com/dtwf16umd/image/upload/v1695149215/hyperCar/geml8wx15yjrwrn3aetd.png",
    "price": 240000,
    "contact": "in store",
-   "description": "The luxury SUV"
+   "description": "The luxury ONE77"
 }
 
 #####
